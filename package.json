@@ -1,0 +1,28 @@
+{
+  "name": "furry-waddle",
+  "version": "1.0.0",
+  "description": "html forms + magic",
+  "main": "src/furrywaddle.js",
+  "scripts": {
+    "build": "browserify src/page.js -o dist/page.js && rm -r docs/* && jsdoc -r src -d docs/ && sass src/sass/pages.scss dist/css/pages.css",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/therealadityashankar/furry-waddle.git"
+  },
+  "keywords": [
+    "html",
+    "forms",
+    "magic"
+  ],
+  "author": "Aditya Shankar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/therealadityashankar/furry-waddle/issues"
+  },
+  "homepage": "https://github.com/therealadityashankar/furry-waddle#readme",
+  "dependencies": {
+    "html-pages": "github:therealadityashankar/html-pages"
+  }
+}
