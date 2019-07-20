@@ -6,8 +6,8 @@ multipage, json supporting forms!
 - multi page forms!
 
 ## usage
-- a `<furry>` is a form
-- a `<waddle>` is a small page
+- a `<fw-furry>` is a form
+- a `<fw-waddle>` is a small page
 - the `<next-page>` button takes you to the next page!
 - the `<prev-page>` and `<nav-page>` from my html-pages project work in the same way!
 - you don't need to have a wadle
