@@ -31,11 +31,10 @@ function extractFurryData(furry){
     for(var key in rawData){
         /* I'm converting the keys to proper
            jsons here
-        
+
            later check if all names are numbers
            then convert the json into an array */
         var splitKey = parseName(key);
-        console.log(splitKey);
         var trueKey = splitKey[splitKey.length - 1];
 
         // turn every previous container into a js object
@@ -49,7 +48,7 @@ function extractFurryData(furry){
                 // if not string assume integer
                 if(typeof(nextName) == "string") currData[name] = {};
                 else currData[name] = [];
-            } 
+            }
             currData = currData[name];
         }
 

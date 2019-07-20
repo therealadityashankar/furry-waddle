@@ -13,14 +13,15 @@
             width: calc(100% - 10px);
         }
       </style>
-      <fw-furry id="fw1">
+      <fw-furry id="fw1" action="http://localhost:4567/">
           <fw-waddle>
               <input type="text" name="yourmom.hisson" required>
               <input type="text" name="yourothermom.herfather" required>
               <input type="text" name="yourothermom.herfathersfather" required>
           </fw-waddle>
           <fw-waddle>
-              <input type="text" name="#pridemonth['asdad']" required>
+              <input type="text" name="#pridemonth['asdad'][0]" required>
+              <input type="text" name="#pridemonth['asdad'][2]" required>
               <input type='submit'>
           </fw-waddle>
       </fw-furry>
@@ -28,6 +29,8 @@
       <next-page page-el="#fw1" auto-hide>next</next-page>
       <script>
         var con = document.getElementById('fw1');
+        con.onSuccessfulSubmission(resp => {console.log("successful", resp)});
+        con.onFailedSubmission(err => {console.log("failed", err)});
       </script>
   </body>
 </html>
