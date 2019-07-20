@@ -1,1 +1,2 @@
-npm run build
+tasks:
+    - npm run build

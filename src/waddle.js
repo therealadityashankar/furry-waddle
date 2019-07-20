@@ -1,9 +1,9 @@
 var fw = require("./main.js");
 var pages = require("html-pages");
-fw.waddle = class extends pages.NormalPageElement{
+fw.Waddle = class extends pages.NormalPageElement{
     constructor(){
         super();
     }
 }
 
-customElements.define('waddle', pages.FormPageElement);
+customElements.define('fw-waddle', fw.Waddle);

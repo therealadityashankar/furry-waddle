@@ -1,0 +1,33 @@
+<html>
+  <body>
+      <script src="../dist/furrywaddle.js"></script>
+      <link rel="stylesheet" href="../dist/css/furrywaddle.css">
+      <link rel="stylesheet" href="../node_modules/html-pages/dist/css/pages.css">
+      <style>
+        fw-furry{
+            border: 1px solid black;
+        }
+
+        input[type="text"]{
+            margin: 3px 5px;
+            width: calc(100% - 10px);
+        }
+      </style>
+      <fw-furry id="fw1">
+          <fw-waddle>
+              <input type="text" name="yourmom.hisson" required>
+              <input type="text" name="yourothermom.herfather" required>
+              <input type="text" name="yourothermom.herfathersfather" required>
+          </fw-waddle>
+          <fw-waddle>
+              <input type="text" name="#pridemonth['asdad']" required>
+              <input type='submit'>
+          </fw-waddle>
+      </fw-furry>
+      <prev-page page-el="#fw1" auto-hide>previous</prev-page>
+      <next-page page-el="#fw1" auto-hide>next</next-page>
+      <script>
+        var con = document.getElementById('fw1');
+      </script>
+  </body>
+</html>
