@@ -7,8 +7,7 @@
     "build": "browserify src/furrywaddle.js -o dist/furrywaddle.js && rm -rf docs/* && jsdoc -r src -d docs/ && sass src/sass/furrywaddle.scss dist/css/furrywaddle.css",
     "test": "mocha",
     "clean": "rm -rf docs/ dist/",
-    "package": "zip dist/furrywaddle.zip dist/css/* dist/furrywaddle.js",
-    "test": "mocha"
+    "package": "zip dist/furrywaddle.zip dist/css/* dist/furrywaddle.js"
   },
   "repository": {
     "type": "git",
