@@ -1,6 +1,6 @@
 /**
 * furry erry
-* the <furry-erry> tag is here
+* the <fw-erry> tag is here
 * basically it represents the error while
 * submitting the data
 * I swear the more I do this project the more amazing I
@@ -82,4 +82,4 @@ fw.FurryErry = class extends HTMLElement{
     }
 }
 
-customElements.define("furry-erry");
+customElements.define("fw-erry", fw.FurryErry);
