@@ -48,6 +48,34 @@ fw.FurryErry = class extends HTMLElement{
       if(!(furryEl.onFailedSubmission && furryEl.onSuccessfulSubmission)){
         throw new fw.BadConnectedElementError("the connected element to <furry-erry furry-el=...> (in the furry-el='name') must have .onFailedSubmission() & .onSuccessfulSubmission() functions in it")
       }
+
+
+      // either bind it or its a arrow function
+      furryEl.onSuccessfulResponse(resp => this.successfulSubmissionCB(resp));
+      furryEl.onFailedSubmission(err => this.failedSubmissionCB(err));
+      furryEl.onBadResponse(err => this.BadResponseCB(err));
+    }
+
+    /**
+    * on successful responses
+    * @param {String} successMessage - the text to show on a successful form submission, defaults to "success"
+    */
+    successfulResponseCB(resp){
+        this.declareSuccess(successMessage);
+    }
+
+    /**
+    * on bad responses
+    */
+    BadResponseCB(resp){
+      resp.text().then(text => this.declareError(text));
+    }
+
+    /**
+    * on failed submissions (like an internet error or something)
+    */
+    failedSubmissionCB(err){
+      this.declareError(text);
     }
 
     /**
