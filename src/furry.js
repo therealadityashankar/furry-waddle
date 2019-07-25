@@ -37,6 +37,8 @@ fw.Furry = class extends pages.PageContainer{
         });
         this.afterSuccessfulSubmissionFunctions = [];
         this.afterFailedSubmissionFunctions = [];
+        this.afterSuccessfulResponseFunctions = [];
+        this.afterBadResponseFunctions = [];
     }
 
     get action(){
@@ -94,6 +96,11 @@ fw.Furry = class extends pages.PageContainer{
         })
         prom.then(resp => {
             for (var f of this.afterSuccessfulSubmissionFunctions) f(resp);
+            if(resp.status == 200){
+              for(var f of this.afterSuccessfulResponseFunctions) f(resp);
+            } else{
+              for(var f of this.afterBadResponseFunctions) f(resp);
+            }
         });
 
         prom.catch(error => {
@@ -106,7 +113,8 @@ fw.Furry = class extends pages.PageContainer{
      * do this
      *
      * successfull submission DOES NOT MEAN a reponse of 200
-     * just that the data was sent
+     * just that the data was sent, for that see the 
+     * .onSuccessfulResponse(...) function
      *
      * function takes a callback
      * callback gets the response as the parameter
@@ -124,6 +132,27 @@ fw.Furry = class extends pages.PageContainer{
     onFailedSubmission(f){
         this.afterFailedSubmissionFunctions.push(f);
     }
+
+    /**
+     * called when the submission has a response
+     * of code 200
+     * the response will be passed onto the function as a parameter
+     */
+    onSuccessfulResponse(f){
+        this.afterSuccessfulResponseFunctions.push(f);
+    }
+
+    /**
+     * called when the submission has a response of
+     * a code that is not 200
+     * the response will be passed onto the function as a parameter
+     *
+     * also check out the .onFailedSubmission(...) function from this
+     * class for when actually submitting the data fails
+     */
+     onBadResponse(f){
+         this.afterBadResponseFunctions.push(f);
+     }
 
     /**
      * reads the input name and returns its components
