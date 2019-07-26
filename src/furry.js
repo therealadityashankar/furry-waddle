@@ -27,7 +27,11 @@ fw.Furry = class extends pages.PageContainer{
               for(var node of record.addedNodes){
                 if(node instanceof HTMLInputElement){
                     this.handleInputs(node);
-                }}}
+                }
+                if(node instanceof fw.FurryErry){
+                      node.defaultFurry = this;
+                }
+              }}
         }
 
         this.observer = new MutationObserver(checkForSubmitBtn);
@@ -113,7 +117,7 @@ fw.Furry = class extends pages.PageContainer{
      * do this
      *
      * successfull submission DOES NOT MEAN a reponse of 200
-     * just that the data was sent, for that see the 
+     * just that the data was sent, for that see the
      * .onSuccessfulResponse(...) function
      *
      * function takes a callback

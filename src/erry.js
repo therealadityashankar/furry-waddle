@@ -12,6 +12,9 @@ fw.FurryErry = class extends HTMLElement{
     constructor(){
       super();
       this.setFurryEl();
+
+      /* this will be set to the parent furry-erry if it is in a furry-erry*/
+      this.defaultFurry = undefined;
     }
 
     /**
@@ -29,6 +32,15 @@ fw.FurryErry = class extends HTMLElement{
     }
 
     /**
+    *
+    */
+    get connectedFurry(){
+      var furry = document.querySelector(this.furryEl);
+      if(!furry && this.defaultFurry) return this.defaultFurry;
+      return furry
+    }
+
+    /**
     * read the customElements docs to know what this is for
     */
     static get observedAttributes(){
@@ -40,20 +52,18 @@ fw.FurryErry = class extends HTMLElement{
     * is changed
     */
     setFurryEl(){
-      var furryEl = document.querySelector(this.furryEl);
-      if(!furryEl){
-        throw new fw.BadConnectedElementError("there needs to be a connected element to a <furry-erry> with the (furry-el) tag! for eg. <furry-erry furry-el='.parent-tag-name'>")
+      var furryEl = this.connectedFurry;
+      if(furryEl){
+        if(!(furryEl.onFailedSubmission && furryEl.onSuccessfulSubmission)){
+          throw new fw.BadConnectedElementError("the connected element to <furry-erry furry-el=...> (in the furry-el='name') must have .onFailedSubmission() & .onSuccessfulSubmission() functions in it")
+        }
+
+
+        // either bind it or its a arrow function
+        furryEl.onSuccessfulResponse(resp => this.successfulSubmissionCB(resp));
+        furryEl.onFailedSubmission(err => this.failedSubmissionCB(err));
+        furryEl.onBadResponse(err => this.BadResponseCB(err));
       }
-
-      if(!(furryEl.onFailedSubmission && furryEl.onSuccessfulSubmission)){
-        throw new fw.BadConnectedElementError("the connected element to <furry-erry furry-el=...> (in the furry-el='name') must have .onFailedSubmission() & .onSuccessfulSubmission() functions in it")
-      }
-
-
-      // either bind it or its a arrow function
-      furryEl.onSuccessfulResponse(resp => this.successfulSubmissionCB(resp));
-      furryEl.onFailedSubmission(err => this.failedSubmissionCB(err));
-      furryEl.onBadResponse(err => this.BadResponseCB(err));
     }
 
     /**
