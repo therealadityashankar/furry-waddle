@@ -29,7 +29,7 @@ fw.Furry = class extends pages.PageContainer{
                     this.handleInputs(node);
                 }
                 if(node instanceof fw.FurryErry){
-                      node.defaultFurry = this;
+                    node.defaultFurry = this;
                 }
               }}
         }
