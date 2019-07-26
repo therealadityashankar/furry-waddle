@@ -7,5 +7,5 @@ fw.BadConnectedElementError = class extends fw.FurryError{};
 
 // for testing purposes
 if(typeof(window) === "undefined"){
-    module.exports = {fw}
+    module.exports = {fw};
 }

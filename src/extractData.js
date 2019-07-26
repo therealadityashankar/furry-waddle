@@ -10,7 +10,7 @@ function extractData(furry){
     // checkbox, color, date, datetime-local, email, file,
     // hidden, image, month, number, password, radio, range,
     // reset - TODO, search, tel, text, time, url, week
-    var values = {}
+    var values = {};
     for(var input of inputs){
         if(!["radio", "checkbox", "submit"].includes(input.type)){
             values[input.name] = input.value;
@@ -21,7 +21,7 @@ function extractData(furry){
         }
     }
 
-    return values
+    return values;
 }
 
 function extractFurryData(furry){
@@ -57,7 +57,7 @@ function extractFurryData(furry){
             currData[trueKey] = rawData[key];
         }
         else{
-            throw new fw.BadNameError(`one of the keys (${name}) has already been used as a name!, for the name in input ${key}`);
+            throw new fw.BadNameError(`one of the keys (${trueKey}) has already been used as a name!, for the name in input ${key}`);
         }
     }
     return formattedData;

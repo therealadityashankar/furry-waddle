@@ -7,10 +7,10 @@ function checkValues(values, wantedValues){
     for(var i = 0;i<values.length;i++){
         var val = values[i];
         var wantedVal = wantedValues[i]
-        assert.equal(val, 
-                     wantedVal, 
+        assert.equal(val,
+                     wantedVal,
                      `values ${val} and ${wantedVal} don't match`);
-        assert.equal(typeof(val), typeof(wantedVal), 'type of ${val} and ${wantedVal don\'t match')
+        assert.equal(typeof(val), typeof(wantedVal), 'type of ${val} and ${wantedVal don\'t match');
     }
 }
 
@@ -18,7 +18,7 @@ describe('nameParser', function(){
     it('parses form names', function(){
         var test1 = parseName("abcd['fgh']");
         checkValues(test1, ['abcd', 'fgh']);
-        
+
         var test2 = parseName("abcd[fgh]");
         checkValues(test2, ['abcd', 'fgh']);
 
@@ -27,9 +27,9 @@ describe('nameParser', function(){
 
         var test3_5 = parseName("[abcd][fgh]['def'][ijk]");
         checkValues(test3_5, ['abcd', 'fgh', 'def', 'ijk']);
-    
+
         var test4 = parseName("abcd.fgh");
-        checkValues(test4, ['abcd', 'fgh'])
+        checkValues(test4, ['abcd', 'fgh']);
 
         var test5 = parseName("abcd.fgh['def'][ijk]");
         checkValues(test5, ['abcd', 'fgh', 'def', 'ijk']);
@@ -40,10 +40,10 @@ describe('nameParser', function(){
         var test7 = () => parseName("abcd.efg[hij");
         assert.throws(test7, fw.BadNameError);
 
-        var test7 = () => parseName("abcd.efg[\"hij]");
+        var test8 = () => parseName("abcd.efg[\"hij]");
         assert.throws(test7, fw.BadNameError);
 
-        var test8 = () => parseName("abc'd.efg[\"hij]");
+        var test9 = () => parseName("abc'd.efg[\"hij]");
         assert.throws(test8, fw.BadNameError);
     });
 });

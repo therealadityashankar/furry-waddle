@@ -30,9 +30,10 @@ fw.Furry = class extends pages.PageContainer{
                 }
                 if(node instanceof fw.FurryErry){
                     node.defaultFurry = this;
+                    node.setFurryEl();
                 }
               }}
-        }
+        };
 
         this.observer = new MutationObserver(checkForSubmitBtn);
         this.observer.observe(this, {
@@ -55,7 +56,7 @@ fw.Furry = class extends pages.PageContainer{
 
     handleInputs(input){
       if(input.type == "submit"){
-          input.addEventListener('click', () => this.submit())
+          input.addEventListener('click', () => this.submit());
       }
     }
 
@@ -66,7 +67,7 @@ fw.Furry = class extends pages.PageContainer{
             var inp_valid = input.reportValidity();
             if(valid && !inp_valid) valid = false;
         }
-        return valid
+        return valid;
     }
 
     checkValidity(){
@@ -76,7 +77,7 @@ fw.Furry = class extends pages.PageContainer{
             var inp_valid = input.checkValidity();
             if(valid && !inp_valid) valid = false;
         }
-        return valid
+        return valid;
     }
 
     /**
@@ -97,13 +98,13 @@ fw.Furry = class extends pages.PageContainer{
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        });
         prom.then(resp => {
-            for (var f of this.afterSuccessfulSubmissionFunctions) f(resp);
+            for (let f of this.afterSuccessfulSubmissionFunctions) f(resp);
             if(resp.status == 200){
-              for(var f of this.afterSuccessfulResponseFunctions) f(resp);
+              for(let f of this.afterSuccessfulResponseFunctions) f(resp);
             } else{
-              for(var f of this.afterBadResponseFunctions) f(resp);
+              for(let f of this.afterBadResponseFunctions) f(resp);
             }
         });
 
@@ -174,5 +175,5 @@ fw.Furry = class extends pages.PageContainer{
     skipPage(){
         super.nextPage();
     }
-}
-customElements.define("fw-furry", fw.Furry)
+};
+customElements.define("fw-furry", fw.Furry);

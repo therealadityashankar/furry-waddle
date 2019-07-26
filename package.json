@@ -26,5 +26,9 @@
   "homepage": "https://github.com/therealadityashankar/furry-waddle#readme",
   "dependencies": {
     "html-pages": "github:therealadityashankar/html-pages"
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-contrib-jshint": "*"
   }
 }

@@ -15,23 +15,22 @@ function nameParser(name){
     }
 
     function parserAssignable(char){
-        return ["'","[",'"',"."].includes(char)
+        return ["'","[",'"',"."].includes(char);
     }
 
-    function assignParserForNormalParsing(char){ 
+    function assignParserForNormalParsing(char){
         if(char == '['){
             parseSquareBracket();
-            return true
+            return true;
         }
         else if(char == '"'||char == "'"){
-            throw new fw.BadNameError("cant have quotes ('\"', \"'\" without square brackets '[]'")
-            return true
+            throw new fw.BadNameError("cant have quotes ('\"', \"'\" without square brackets '[]'");
         }
         else if(char == '.'){
             parseNormal();
-            return true
+            return true;
         }
-        return false
+        return false;
     }
 
     function parseNormal(){
@@ -44,11 +43,11 @@ function nameParser(name){
             if(parserAssignable(char)){
                 if(currText != '') parts.push(currText);
                 assignParserForNormalParsing(char);
-                break
+                break;
             }
             else if(textEnded){
                 if(currText != '') parts.push(currText);
-                break 
+                break;
             }
             else{
                 currText += char;
@@ -71,7 +70,8 @@ function nameParser(name){
                         // make sure it isn't a float
                         // https://stackoverflow.com/questions/3885817/how-do-i-check-that-a-number-is-float-or-integer
                         var number = parseFloat(currText);
-                        if(!(number%1 === 0)){
+                        var intNumber = !(number%1 === 0);
+                        if(intNumber){
                             throw new fw.BadNameError(`floating point array values are not allowed, if you want this as a string, quote it!, error number here is ${number}`);
                         }
                         else{
@@ -82,24 +82,24 @@ function nameParser(name){
                 else throw new fw.BadNameError('empty arrays are not allowed currently in names');
                 // in case there is more coming up!
                 parseNormal();
-                break
-            } 
+                break;
+            }
             else if(char == '"'||char=="'"){
                 parseString(char);
                 var endBracket = gulpChar();
-                if(endBracket != "]") throw new fw.BadNameError('missing end square bracket("]") in name after quote')
+                if(endBracket != "]") throw new fw.BadNameError('missing end square bracket("]") in name after quote');
                 // in case there is more
-                parseNormal()
-                break
-            } 
+                parseNormal();
+                break;
+            }
             else if(textEnded){
                 throw new fw.BadNameError('open square bracker ("[") without closing square bracket ("]")')
-            }
+            };
             else{
                 currText += char;
             }
         }
-        
+
     }
 
     /** startQuote must be "'" or '"' indicating the starting type*/
@@ -108,7 +108,7 @@ function nameParser(name){
         while(true){
             var char = gulpChar();
             if(char == startQuote){
-                if (currText === '') throw new fw.BadNameError('name contains empty quoted string, that\'s not allowed')
+                if (currText === '') throw new fw.BadNameError('name contains empty quoted string, that\'s not allowed');
                 else{
                     parts.push(currText);
                     break;
@@ -127,4 +127,4 @@ function nameParser(name){
     return parts
 }
 
-module.exports = nameParser
+module.exports = nameParser;

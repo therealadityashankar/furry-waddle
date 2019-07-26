@@ -37,14 +37,14 @@ fw.FurryErry = class extends HTMLElement{
     get connectedFurry(){
       var furry = document.querySelector(this.furryEl);
       if(!furry && this.defaultFurry) return this.defaultFurry;
-      return furry
+      return furry;
     }
 
     /**
     * read the customElements docs to know what this is for
     */
     static get observedAttributes(){
-        return ['furry-el']
+        return ['furry-el'];
     }
 
     /**
@@ -55,12 +55,12 @@ fw.FurryErry = class extends HTMLElement{
       var furryEl = this.connectedFurry;
       if(furryEl){
         if(!(furryEl.onFailedSubmission && furryEl.onSuccessfulSubmission)){
-          throw new fw.BadConnectedElementError("the connected element to <furry-erry furry-el=...> (in the furry-el='name') must have .onFailedSubmission() & .onSuccessfulSubmission() functions in it")
+          throw new fw.BadConnectedElementError("the connected element to <furry-erry furry-el=...> (in the furry-el='name') must have .onFailedSubmission() & .onSuccessfulSubmission() functions in it");
         }
 
 
         // either bind it or its a arrow function
-        furryEl.onSuccessfulResponse(resp => this.successfulSubmissionCB(resp));
+        furryEl.onSuccessfulResponse(resp => this.successfulResponseCB(resp));
         furryEl.onFailedSubmission(err => this.failedSubmissionCB(err));
         furryEl.onBadResponse(err => this.BadResponseCB(err));
       }
@@ -71,7 +71,7 @@ fw.FurryErry = class extends HTMLElement{
     * @param {String} successMessage - the text to show on a successful form submission, defaults to "success"
     */
     successfulResponseCB(resp){
-        this.declareSuccess(successMessage);
+        this.declareSuccess();
     }
 
     /**
@@ -85,7 +85,7 @@ fw.FurryErry = class extends HTMLElement{
     * on failed submissions (like an internet error or something)
     */
     failedSubmissionCB(err){
-      this.declareError(text);
+      this.declareError(err);
     }
 
     /**
@@ -118,6 +118,6 @@ fw.FurryErry = class extends HTMLElement{
     attributeChangedCallback(name, oldVal, newVal){
         if(name == 'furry-el') this.setFurryEl();
     }
-}
+};
 
 customElements.define("fw-erry", fw.FurryErry);
