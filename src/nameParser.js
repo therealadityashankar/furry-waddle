@@ -70,7 +70,8 @@ function nameParser(name){
                         // make sure it isn't a float
                         // https://stackoverflow.com/questions/3885817/how-do-i-check-that-a-number-is-float-or-integer
                         var number = parseFloat(currText);
-                        var intNumber = !(number%1 === 0);
+                        var floatNumber = (number%1 === 0);
+                        var intNumber = !floatNumber;
                         if(intNumber){
                             throw new fw.BadNameError(`floating point array values are not allowed, if you want this as a string, quote it!, error number here is ${number}`);
                         }
@@ -93,8 +94,8 @@ function nameParser(name){
                 break;
             }
             else if(textEnded){
-                throw new fw.BadNameError('open square bracker ("[") without closing square bracket ("]")')
-            };
+                throw new fw.BadNameError('open square bracker ("[") without closing square bracket ("]")');
+            }
             else{
                 currText += char;
             }
@@ -124,7 +125,7 @@ function nameParser(name){
     }
 
     parseNormal(name);
-    return parts
+    return parts;
 }
 
 module.exports = nameParser;

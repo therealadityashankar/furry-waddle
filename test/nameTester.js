@@ -6,7 +6,7 @@ function checkValues(values, wantedValues){
     assert.equal(values.length, wantedValues.length, "lengths dont match!");
     for(var i = 0;i<values.length;i++){
         var val = values[i];
-        var wantedVal = wantedValues[i]
+        var wantedVal = wantedValues[i];
         assert.equal(val,
                      wantedVal,
                      `values ${val} and ${wantedVal} don't match`);
