@@ -12,6 +12,13 @@
             margin: 3px 5px;
             width: calc(100% - 10px);
         }
+
+        page-container{
+          border: 1px solid black;
+          padding: 3px;
+          width: 300px;
+          height: 300px;
+        }
       </style>
       <page-container>
           <n-page>
@@ -29,9 +36,9 @@
                   </fw-waddle>
               </fw-furry>
           </n-page>
+          <prev-page page-el="#fw1" auto-hide>previous</prev-page>
+          <next-page page-el="#fw1" auto-hide>next</next-page>
       </page-container>
-      <prev-page page-el="#fw1" auto-hide>previous</prev-page>
-      <next-page page-el="#fw1" auto-hide>next</next-page>
       <script>
         var con = document.getElementById('fw1');
         con.onSuccessfulSubmission(resp => {console.log("successful", resp)});
