@@ -4,20 +4,48 @@ var pages = require("html-pages");
 var extractFurryData = require("./extractData").extractFurryData;
 
 /**
- * ok so, this stuff uses json submission
- * it DOES NOT follow https://www.w3.org/TR/html-json-forms/ ok,
- *
- * stuff has to be set likey name='pet[yo_mama]' or name='pet["yo_mama"]',
- * or just do name="per.you_mama", cuz, why not ?
- * unquoted numbers MEAN ARRAYS,
- * setting name='pet[0]' and name='pet["abcd"]' for 2 different inputs
- * isn't allowed,
- * you want 0 as text put it as name='pet["0"]'
- *
- * also this does NOT support the empty array thing, i.e. [] is not supported
- * a number there IS REQUIRED, so yeah, thats a TODO
- * TODO: yo wanna put a ", escape that too, so it becomes \" instead of ",
- * and \ becomes \\ insead of \;
+ ok so, this stuff uses json submission
+ it DOES NOT follow https://www.w3.org/TR/html-json-forms/ ok,
+
+ json names -
+   stuff has to be set likey name='pet[yo_mama]' or name='pet["yo_mama"]',
+   or just do name="per.you_mama", cuz, why not ?
+   unquoted numbers MEAN ARRAYS,
+   setting name='pet[0]' and name='pet["abcd"]' for 2 different inputs
+   isn't allowed,
+   you want 0 as text put it as name='pet["0"]'
+
+   also this does NOT support the empty array thing, i.e. [] is not supported
+   a number there IS REQUIRED, so yeah, thats a TODO
+   TODO: yo wanna put a ", escape that too, so it becomes \" instead of ",
+   and \ becomes \\ insead of \;
+
+ connected page containers -
+   the Furry automatically sets its page container as the earliest found
+   page container from its parents, i.e, it checks its parent, its parent's parent
+   and so on, until it finds a page container and auto sets that page container
+   as its pageContainer
+   this is accessable by furryDOMElement.pageContainer
+
+ if you want to set another page container as its page container you could
+ do that through the page-el attribute in a <furry-waddle>
+ so for example
+
+      <page-container id="pc">
+      </page-container>
+      <fw-furry page-el="#pc"></fw-furry>
+
+ connected page container options
+
+ you can do 2 things to connected page containers via attributes,
+
+ - automatically set it to the next page of the page container
+ after a SUCCESSFUL RESPONSE OF 200 from the fw-furry
+      <fw-furry auto-next-on-submit></fw-furry>
+
+ - same thing as above except set it to a specific page after submitting
+      <fw-furry on-submit-page="pageName"></fw-furry>
+      which automatically sets the pageContainer to a specific page after submission
  */
 fw.Furry = class extends pages.PageContainer{
     constructor(){
@@ -44,6 +72,117 @@ fw.Furry = class extends pages.PageContainer{
         this.afterFailedSubmissionFunctions = [];
         this.afterSuccessfulResponseFunctions = [];
         this.afterBadResponseFunctions = [];
+
+        var pageEl = this.getAttribute("page-el");
+
+        if(!pageEl){
+            var defaultPCLoadingFunction = () => {
+              /**
+              * this is used when no pageEl is specified via tags
+              */
+              var defaultCP = this.parentElement;
+
+              while(true){
+                /**
+                * we try getting the default connected page container by repeatedly
+                * checking the parents and the parents parents and so on
+                * until we hit a page container or the body or Null
+                */
+                var isBody = (defaultCP == document.body);
+                var isPageContainer = (defaultCP instanceof pages.PageContainer);
+                var isUnknown = !defaultCP;
+
+                if(isBody||isUnknown){
+                  break;
+                } else if (isPageContainer) {
+                  this.pageContainer = defaultCP;
+                  break;
+                }
+
+                defaultCP = defaultCP.parentElement;
+              }
+            };
+
+            document.addEventListener('DOMContentLoaded', defaultPCLoadingFunction);
+        }
+
+        this.onSuccessfulResponse(() => this.autoSetPageContainerPage());
+    }
+
+    /**
+    * read the customElements docs to know what this is for
+    */
+    static get observedAttributes(){
+        return ['page-el', 'auto-next-on-submit', 'on-submit-page'];
+    }
+
+    get autoNextOnSubmit(){
+        var val = this.getAttribute('auto-next-on-submit');
+        if(['true', '', 'True'].includes(val)){
+          if(val != 'true'){
+            this.setAttribute('auto-next-on-submit', 'true');
+          }
+
+          return true;
+        }
+        return false;
+    }
+
+    set autoNextOnSubmit(val){
+        if(val) this.setAttribute('auto-next-on-submit', 'true');
+        else this.removeAttribute('auto-next-on-submit');
+    }
+
+    get onSubmitPageName(){
+        return this.getAttribute('on-submit-page');
+    }
+
+    /**
+    * read the customElements docs for what this is
+    */
+    attributeChangedCallback(name, oldVal, newVal){
+        if(name == 'page-el') this.setPageContainerFromQS(newVal);
+    }
+
+    get pageContainer(){
+        return this._pageContainer;
+    }
+
+    /**
+    * if the pageContainer is dynamically set -
+    */
+    set pageContainer(val){
+        this.removeAttribute('page-el');
+        this._pageContainer = val;
+    }
+
+    /**
+    * set the page container from a querySelector
+    * @param {string} pageEl - the querySelector string
+    */
+    setPageContainerFromQS(pageEl){
+      var pageContainer = document.querySelector(pageEl);
+      if(!pageContainer){
+          throw new fw.BadConnectedElementError('connected element is unknown!');
+      }
+
+      this._pageContainer = pageContainer;
+    }
+
+    /**
+    * auto set the page container after a successful request
+    * if a page container is present
+    * depending on the tags ''
+    */
+    autoSetPageContainerPage(){
+      if(this.pageContainer){
+        if(this.autoNextOnSubmit){
+          this.pageContainer.nextPage();
+        }
+        else if(this.onSubmitPageName){
+          this.pageContainer.setPage(this.onSubmitPageName);
+        }
+      }
     }
 
     get action(){
