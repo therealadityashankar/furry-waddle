@@ -12,7 +12,7 @@ n-page {
   height: 100%;
 }
 
-next-page, prev-page {
+next-page, prev-page, nav-page{
   background: blue;
   padding: 2px 5px;
   box-shadow: 1px 1px 1px 0 black;
