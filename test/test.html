@@ -21,7 +21,7 @@
         }
       </style>
       <page-container id="pc1">
-          <n-page>
+          <n-page pname="form-page">
               <fw-furry id="fw1" action="http://localhost:4567/" auto-next-on-submit>
                   <fw-waddle>
                       <input type="text" name="yourmom.hisson" required>
@@ -40,12 +40,12 @@
           </n-page>
           <n-page>
             cool you finished that!
-            <nav-page page-el="#pc1">go back!</nav-page>
+            <nav-page page-el="#pc1" nav="form-page">go back!</nav-page>
           </n-page>
       </page-container>
 
       <page-container id="pc2">
-          <n-page>
+          <n-page pname="form-page">
               <fw-furry id="fw2" action="http://localhost:4567/" on-submit-page="abc">
                   <fw-waddle>
                       <input type="text" name="yourmom.hisson" required>
@@ -64,7 +64,7 @@
           </n-page>
           <n-page pname="abc">
             cool you finished that!
-            <nav-page page-el="#pc2">go back!</nav-page>
+            <nav-page page-el="#pc2" nav="form-page">go back!</nav-page>
           </n-page>
       </page-container>
       <script>
