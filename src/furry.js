@@ -72,40 +72,7 @@ fw.Furry = class extends pages.PageContainer{
         this.afterFailedSubmissionFunctions = [];
         this.afterSuccessfulResponseFunctions = [];
         this.afterBadResponseFunctions = [];
-
-        var pageEl = this.getAttribute("page-el");
-
-        if(!pageEl){
-            var defaultPCLoadingFunction = () => {
-              /**
-              * this is used when no pageEl is specified via tags
-              */
-              var defaultCP = this.parentElement;
-
-              while(true){
-                /**
-                * we try getting the default connected page container by repeatedly
-                * checking the parents and the parents parents and so on
-                * until we hit a page container or the body or Null
-                */
-                var isBody = (defaultCP == document.body);
-                var isPageContainer = (defaultCP instanceof pages.PageContainer);
-                var isUnknown = !defaultCP;
-
-                if(isBody||isUnknown){
-                  break;
-                } else if (isPageContainer) {
-                  this.pageContainer = defaultCP;
-                  break;
-                }
-
-                defaultCP = defaultCP.parentElement;
-              }
-            };
-
-            document.addEventListener('DOMContentLoaded', defaultPCLoadingFunction);
-        }
-
+        this.setDefaultPageContainer();
         this.onSuccessfulResponse(() => this.autoSetPageContainerPage());
     }
 
@@ -114,6 +81,63 @@ fw.Furry = class extends pages.PageContainer{
     */
     static get observedAttributes(){
         return ['page-el', 'auto-next-on-submit', 'on-submit-page'];
+    }
+
+    /**
+    * sets the default page container
+    */
+    setDefaultPageContainer(){
+      var pageEl = this.getAttribute("page-el");
+      if(!pageEl){
+          var defaultPCLoadingFunction = () => {
+            /**
+            * this is used when no pageEl is specified via tags
+            */
+            var defaultCP = this.parentElement;
+
+            while(true){
+              /**
+              * we try getting the default connected page container by repeatedly
+              * checking the parents and the parents parents and so on
+              * until we hit a page container or the body or Null
+              */
+              var isBody = (defaultCP == document.body);
+              var isPageContainer = (defaultCP instanceof pages.PageContainer);
+              var isUnknown = !defaultCP;
+
+              if(isBody||isUnknown){
+                break;
+              } else if (isPageContainer) {
+                this.pageContainer = defaultCP;
+                break;
+              }
+
+              defaultCP = defaultCP.parentElement;
+            }
+          };
+
+          document.addEventListener('DOMContentLoaded', defaultPCLoadingFunction);
+      }
+    }
+
+    /**
+    * read the customElements docs for what this is
+    */
+    attributeChangedCallback(name, oldVal, newVal){
+        if(name == 'page-el') this.setPageContainerFromQS(newVal);
+    }
+
+    /**
+    * get an input from its name
+    *
+    * @param {string} name - the name of the element
+    *
+    * @returns an element corrosponding to the name, or undefined;
+    */
+    getElFromName(name){
+      for(var inp of this.getElementsByTagName("input")){
+        if(inp.name == name) return inp;
+      }
     }
 
     get autoNextOnSubmit(){
@@ -135,13 +159,6 @@ fw.Furry = class extends pages.PageContainer{
 
     get onSubmitPageName(){
         return this.getAttribute('on-submit-page');
-    }
-
-    /**
-    * read the customElements docs for what this is
-    */
-    attributeChangedCallback(name, oldVal, newVal){
-        if(name == 'page-el') this.setPageContainerFromQS(newVal);
     }
 
     get pageContainer(){

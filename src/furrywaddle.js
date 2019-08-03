@@ -2,7 +2,8 @@ var fw = require("./main");
 require("./errors");
 require("./furry");
 require("./waddle");
-require("./erry.js");
+require("./erry");
+require("./countii");
 
 if(typeof(window) !== "undefined")
     window.furrywaddle = fw;
