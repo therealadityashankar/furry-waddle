@@ -210,12 +210,20 @@ fw.Furry = class extends pages.PageContainer{
         this.setAttribute('action', val);
     }
 
+    /**
+    * takes care of the "submit" imput
+    */
     handleInputs(input){
       if(input.type == "submit"){
           input.addEventListener('click', () => this.submit());
       }
     }
 
+    /**
+    * reports if the data in the fw-furry is
+    * valid, returns true or false depending
+    * on if its valid or not
+    */
     reportValidity(){
         var inputs = this.currentPage.getElementsByTagName("input");
         var valid = true;
@@ -226,6 +234,11 @@ fw.Furry = class extends pages.PageContainer{
         return valid;
     }
 
+    /**
+    * checks if the data in the fw-furry is
+    * valid, returns true or false depending
+    * on if its valid or not
+    */
     checkValidity(){
         var inputs = this.getElementsByTagName("input");
         var valid = true;
