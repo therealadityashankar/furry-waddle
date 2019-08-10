@@ -34,7 +34,7 @@
                       <input type="number" name="babyCountii" required>
                       <br>
                       <fw-countii-up el-name='babyCountii'>go up</fw-countii-up>
-                      <fw-countii-down el-name='babyCountii'>go down<fw-countii-down>
+                      <fw-countii-down el-name='babyCountii'>go down</fw-countii-down>
                       <fw-erry></fw-erry>
                       <input type='submit'>
                   </fw-waddle>
@@ -75,6 +75,7 @@
         var con = document.getElementById('fw1');
         con.onSuccessfulSubmission(resp => {console.log("successful", resp)});
         con.onFailedSubmission(err => {console.log("failed", err)});
+        con.addEventListener("submit", () => console.log("submit button pressed on con1"));
       </script>
   </body>
 </html>

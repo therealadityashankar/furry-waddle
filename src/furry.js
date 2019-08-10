@@ -46,6 +46,9 @@ var extractFurryData = require("./extractData").extractFurryData;
  - same thing as above except set it to a specific page after submitting
       <fw-furry on-submit-page="pageName"></fw-furry>
       which automatically sets the pageContainer to a specific page after submission
+
+  events -
+     the fw-furry element fires the "submit" event on submission
  */
 fw.Furry = class extends pages.PageContainer{
     constructor(){
@@ -260,26 +263,27 @@ fw.Furry = class extends pages.PageContainer{
      * submit the data
      */
     submit(){
-        var body = this.extractData();
-        var prom = fetch(this.action, {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        prom.then(resp => {
-            for (let f of this.afterSuccessfulSubmissionFunctions) f(resp);
-            if(resp.status == 200){
-              for(let f of this.afterSuccessfulResponseFunctions) f(resp);
-            } else{
-              for(let f of this.afterBadResponseFunctions) f(resp);
-            }
-        });
+        this.dispatchEvent(new CustomEvent("submit"));
+        if(this.action){
+          var body = this.extractData();
+          var prom = fetch(this.action, {
+              method: 'POST',
+              body: JSON.stringify(body),
+              headers: {'Content-Type': 'application/json'}
+          });
+          prom.then(resp => {
+              for (let f of this.afterSuccessfulSubmissionFunctions) f(resp);
+              if(resp.status == 200){
+                for(let f of this.afterSuccessfulResponseFunctions) f(resp);
+              } else{
+                for(let f of this.afterBadResponseFunctions) f(resp);
+              }
+          });
 
-        prom.catch(error => {
-            for(var f of this.afterFailedSubmissionFunctions) f(error);
-        });
+          prom.catch(error => {
+              for(var f of this.afterFailedSubmissionFunctions) f(error);
+          });
+        }
     }
 
     /**
