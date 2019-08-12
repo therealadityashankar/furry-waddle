@@ -1,7 +1,7 @@
 /** this is converted into css.js by building it,
 basically furrywaddle.css is added where the "theCSStext" in the ""{{ }}""
 is replaced and then into the final html */
-document.addEventListener("DOMContentLoaded", _ => {
+document.addEventListener('DOMContentLoaded', _ => {
   var css = `/**
  * the css for furrywaddle
  * */
@@ -26,8 +26,12 @@ fw-countii-up{
 fw-countii-down{
   background: pink;
 }
-`;
-  var cssEl = document.createElement("style");
-  cssEl.innerHTML = css;
-  document.body.appendChild(cssEl);
+`
+  var cssEl = document.createElement('style')
+  cssEl.innerHTML = css
+  if (document.head.firstChild) {
+    document.head.insertBefore(cssEl, document.head.firstChild)
+  } else {
+    document.head.appendChild(cssEl)
+  }
 })
