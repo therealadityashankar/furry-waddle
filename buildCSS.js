@@ -7,7 +7,7 @@ async function main(){
   var cssContentF = await fs.open('src/furrywaddle.css');
   var cssContent = await cssContentF.readFile();
   var preCssJS = await preCssFile.readFile({encoding:'utf8'});
-  
+
   var cssJS = preCssJS.replace("{{theCSStext}}", cssContent);
   await cssJSFile.write(cssJS);
 
