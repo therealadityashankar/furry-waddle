@@ -1,0 +1,9 @@
+/** this is converted into css.js by building it,
+basically furrywaddle.css is added where the "theCSStext" in the ""{{ }}""
+is replaced and then into the final html */
+document.addEventListener("DOMContentLoaded", _ => {
+  var css = `{{theCSStext}}`;
+  var cssEl = document.createElement("style");
+  cssEl.innerHTML = css;
+  document.body.appendChild(cssEl);
+})

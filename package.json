@@ -4,7 +4,7 @@
   "description": "html forms + magic",
   "main": "src/furrywaddle.js",
   "scripts": {
-    "build": "browserify src/furrywaddle.js -o dist/furrywaddle.js && rm -rf docs/* && jsdoc -r src -d docs/ && sass src/sass/furrywaddle.scss dist/css/furrywaddle.css",
+    "build": "./buildCSS.js && browserify src/furrywaddle.js -o dist/furrywaddle.js && rm -rf docs/* && jsdoc -r src -d docs/",
     "test": "mocha",
     "clean": "rm -rf docs/ dist/",
     "package": "zip dist/furrywaddle.zip dist/css/* dist/furrywaddle.js"
